@@ -76,7 +76,7 @@ const PRESETS = [
             ]],
         }
     }, {
-        label: "デデンネスタート率",
+        label: "ポケカ/デデンネスタートしてしまう確率",
         source: {
             handNum: 7,
             deckNum: 60,
@@ -95,7 +95,7 @@ const PRESETS = [
             ],
         }
     }, {
-        label: "目当ての種ポケでスタートできる確率",
+        label: "ポケカ/目当ての種でスタートできる確率",
         source: {
             handNum: 7,
             deckNum: 60,
@@ -114,7 +114,7 @@ const PRESETS = [
             ],
         }
     }, {
-        label: "目当ての種ポケを先１で立てられる確率",
+        label: "ポケカ/目当ての種を先１で立てられる確率",
         source: {
             handNum: 8,
             deckNum: 60,
