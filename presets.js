@@ -22,6 +22,49 @@ const PRESETS = [
             posteriorClauses: [[{ type: 'min', value: 2 }]],
         }
     }, {
+        label: "２枚コンボが揃う確率",
+        source: {
+            handNum: 8,
+            deckNum: 60,
+            cards: [
+                { label: "必要なカード or サーチ (1)", count: 4 },
+                { label: "必要なカード or サーチ (2)", count: 4 },
+            ]
+        },
+        target: {
+            priorClauses: [[
+                { type: 'min', value: 0 },
+                { type: 'min', value: 0 },
+            ]],
+            posteriorClauses: [[
+                { type: 'min', value: 1 },
+                { type: 'min', value: 1 },
+            ]],
+        }
+    }, {
+        label: "３枚コンボが揃う確率",
+        source: {
+            handNum: 8,
+            deckNum: 60,
+            cards: [
+                { label: "必要なカード or サーチ (1)", count: 4 },
+                { label: "必要なカード or サーチ (2)", count: 4 },
+                { label: "必要なカード or サーチ (3)", count: 4 },
+            ]
+        },
+        target: {
+            priorClauses: [[
+                { type: 'min', value: 0 },
+                { type: 'min', value: 0 },
+                { type: 'min', value: 0 },
+            ]],
+            posteriorClauses: [[
+                { type: 'min', value: 1 },
+                { type: 'min', value: 1 },
+                { type: 'min', value: 1 },
+            ]],
+        }
+    }, {
         label: "デデンネスタート率",
         source: {
             handNum: 7,
