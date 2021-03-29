@@ -15,11 +15,7 @@
 
       <h1>いい感じの初手率計算機</h1>
 
-      <h2>なにこれ</h2>
-
-      <p>
-        デッキの構成と初手の条件を定義すると、その確率が計算できます。
-      </p>
+      <p>いろいろな初手の確率を計算できます。デッキ構築のお供に。</p>
 
       <p>
         プリセット：
@@ -58,70 +54,72 @@
         <button @click="addCard()">＋</button>
       </p>
 
-      <hr />
-
-      <h2>事前条件</h2>
-
-      <p>※わかる人向け、通常はそのままで ok です。</p>
-
-      <div v-for="(e, i) in target.priorClauses">
-        <p v-if="i > 0">または</p>
-        <h3>
-          パターン {{ i + 1 }}
-          <button v-if="i > 0" @click="delPriorClause(i)">x</button>
-        </h3>
-        <ul>
-          <li v-for="(e, j) in source.cards">
-            {{ source.cards[j].label || 'カード' + String.fromCharCode(65 + j) }}
-            <input type="number" min="0" :max="e.count"
-                   v-model.number="target.priorClauses[i][j].value">
-            枚
-            <select v-model="target.priorClauses[i][j].type">
-              <option value="min">以上</option>
-              <option value="exact">ジャスト</option>
-              <option value="max">以下</option>
-            </select>
-          </li>
-        </ul>
-      </div>
+      <h2>詳細設定</h2>
 
       <p>
-        <button @click="addPriorClause()">＋</button>
+        <button @click="toggleShowDetails">{{ showDetails ? "閉じる" : "開く" }}</button>
       </p>
 
-      <p>が保証されているとき、</p>
+      <div v-if="showDetails">
+        <p>※わかる人向け、通常はそのままで ok です。</p>
 
-      <hr />
+        <h3>事前条件</h3>
 
-      <h2>計算したい初手</h2>
+        <div v-for="(e, i) in target.priorClauses">
+          <p v-if="i > 0">または</p>
+          <h4>
+            パターン {{ i + 1 }}
+            <button v-if="i > 0" @click="delPriorClause(i)">x</button>
+          </h4>
+          <ul>
+            <li v-for="(e, j) in source.cards">
+              {{ source.cards[j].label || 'カード' + String.fromCharCode(65 + j) }}
+              <input type="number" min="0" :max="e.count"
+                     v-model.number="target.priorClauses[i][j].value">
+              枚
+              <select v-model="target.priorClauses[i][j].type">
+                <option value="min">以上</option>
+                <option value="exact">ジャスト</option>
+                <option value="max">以下</option>
+              </select>
+            </li>
+          </ul>
+        </div>
 
-      <p>初手が</p>
+        <p>
+          <button @click="addPriorClause()">＋</button>
+        </p>
 
-      <div v-for="(e, i) in target.posteriorClauses">
-        <p v-if="i > 0">または</p>
-        <h3>
-          パターン {{ i + 1 }}
-          <button v-if="i > 0" @click="delPosteriorClause(i)">x</button>
-        </h3>
-        <ul>
-          <li v-for="(e, j) in source.cards">
-            {{ source.cards[j].label || 'カード' + String.fromCharCode(65 + j) }}
-            <input type="number" min="0" :max="e.count"
-                   v-model.number="target.posteriorClauses[i][j].value">枚
-            <select v-model="target.posteriorClauses[i][j].type">
-              <option value="min">以上</option>
-              <option value="exact">ジャスト</option>
-              <option value="max">以下</option>
-            </select>
-          </li>
-        </ul>
+        <p>が保証されているとき、初手が</p>
+
+        <h3>事後条件</h3>
+
+        <div v-for="(e, i) in target.posteriorClauses">
+          <p v-if="i > 0">または</p>
+          <h4>
+            パターン {{ i + 1 }}
+            <button v-if="i > 0" @click="delPosteriorClause(i)">x</button>
+          </h4>
+          <ul>
+            <li v-for="(e, j) in source.cards">
+              {{ source.cards[j].label || 'カード' + String.fromCharCode(65 + j) }}
+              <input type="number" min="0" :max="e.count"
+                     v-model.number="target.posteriorClauses[i][j].value">枚
+              <select v-model="target.posteriorClauses[i][j].type">
+                <option value="min">以上</option>
+                <option value="exact">ジャスト</option>
+                <option value="max">以下</option>
+              </select>
+            </li>
+          </ul>
+        </div>
+
+        <p>
+          <button @click="addPosteriorClause()">＋</button>
+        </p>
+
+        <p>になる確率を計算。</p>
       </div>
-
-      <p>
-        <button @click="addPosteriorClause()">＋</button>
-      </p>
-
-      <p>になる確率を計算。</p>
 
       <hr />
 

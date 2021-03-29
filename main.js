@@ -19,6 +19,7 @@ const vm = new Vue({
             compiledPriorClause: null,
             compiledPosteriorClause: null,
         },
+        showDetails: false,
         result: "-",
     },
     watch: {
@@ -27,6 +28,7 @@ const vm = new Vue({
                 vm.cache.patterns = null;
                 vm.cache.compiledPriorClause = null;
                 vm.cache.compiledPosteriorClause = null;
+                vm.result = "-";
             },
             deep: true
         },
@@ -34,12 +36,14 @@ const vm = new Vue({
             handler: () => {
                 vm.cache.compiledPriorClause = null;
                 vm.cache.compiledPosteriorClause = null;
+                vm.result = "-";
             },
             deep: true
         },
         'target.posteriorClauses': {
             handler: () => {
                 vm.cache.compiledPosteriorClause = null;
+                vm.result = "-";
             },
             deep: true
         },
@@ -54,6 +58,9 @@ const vm = new Vue({
         }
     },
     methods: {
+        toggleShowDetails: function () {
+            vm.showDetails = !vm.showDetails;
+        },
         delCard: function (ix) {
             vm.source.cards.splice(ix, 1);
             vm.target.priorClauses.forEach((c) => { c.splice(ix, 1); });
@@ -62,7 +69,7 @@ const vm = new Vue({
         addCard: function () {
             vm.source.cards.push({ label: "", count: 4 });
             vm.target.priorClauses.forEach((c) => { c.push({ type: 'min', value: 0 }); });
-            vm.target.posteriorClauses.forEach((c) => { c.push({ type: 'min', value: 1 }); });
+            vm.target.posteriorClauses.forEach((c) => { c.push({ type: 'min', value: 0 }); });
         },
         delPriorClause: function (ix) {
             vm.target.priorClauses.splice(ix, 1);
@@ -74,7 +81,7 @@ const vm = new Vue({
             vm.target.posteriorClauses.splice(ix, 1);
         },
         addPosteriorClause: function () {
-            vm.target.posteriorClauses.push(vm.source.cards.map(() => ({ type: 'min', value: 1 })));
+            vm.target.posteriorClauses.push(vm.source.cards.map(() => ({ type: 'min', value: 0 })));
         },
         setPreset: function (ix) {
             this.source = PRESETS[ix].source;
