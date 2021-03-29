@@ -13,23 +13,22 @@
 
   <body>
     <div id="app">
-
-      <h1>いい感じの初手率計算機</h1>
-
-      <p>いろいろな初手の確率を計算できます。デッキ構築のお供に。</p>
+      <header>
+        <h1>いい感じの初手率計算機</h1>
+        <p>いろいろな初手の確率を計算できます。デッキ構築のお供に。</p>
+      </header>
 
       <p>
         プリセット:
         <select @change="setPreset($event.target.value)">
           <option v-for="(preset, ix) in PRESETS" :value="ix">{{ preset.label }}</option>
         </select>
-      </p>
-
-      <p>
         <button @click="toggleShowDetails">{{ showDetails ? "閉じる" : "カスタム設定" }}</button>
       </p>
 
       <div v-if="showDetails">
+        <hr />
+
         <h2>カスタム設定</h2>
 
         <p>※わかる人向け、通常はプリセットから選べば ok です。</p>
