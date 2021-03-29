@@ -14,28 +14,33 @@ const vm = new Vue({
                 { type: 'min', value: 1 }
             ]],
         },
-        tree: null,
-        count: {
-            prior: null,
-            posterior: null,
+        cache: {
+            patterns: null,
+            compiledPriorClause: null,
+            compiledPosteriorClause: null,
         },
         result: "-",
     },
     watch: {
         source: {
             handler: () => {
-                vm.tree = null;
-                vm.count.prior = null;
-                vm.count.posterior = null;
+                vm.cache.patterns = null;
+                vm.cache.compiledPriorClause = null;
+                vm.cache.compiledPosteriorClause = null;
             },
             deep: true
         },
         'target.priorClauses': {
-            handler: () => { vm.count.prior = null; },
+            handler: () => {
+                vm.cache.compiledPriorClause = null;
+                vm.cache.compiledPosteriorClause = null;
+            },
             deep: true
         },
         'target.posteriorClauses': {
-            handler: () => { vm.count.posterior = null; },
+            handler: () => {
+                vm.cache.compiledPosteriorClause = null;
+            },
             deep: true
         },
     },
@@ -72,24 +77,35 @@ const vm = new Vue({
             vm.target.posteriorClauses.push(vm.source.cards.map(() => ({ type: 'min', value: 1 })));
         },
         compute: function () {
-            if (this.tree == null) {
-                this.tree = makeTree(this.source.cards, this.source.deckNum, this.source.handNum);
-            }
-            if (this.count.prior == null) {
-                this.count.prior = countForClauses(
+            if (this.cache.patterns == null) {
+                this.cache.patterns = computePatterns(
                     this.source.cards,
-                    this.tree,
-                    this.target.priorClauses
+                    this.source.deckNum,
+                    this.source.handNum
                 );
             }
-            if (this.count.posterior == null) {
-                this.count.posterior = countForClauses(
-                    this.source.cards,
-                    this.tree,
-                    this.target.posteriorClauses
+            if (this.cache.compiledPriorClause == null) {
+                this.cache.compiledPriorClause = unionCompiledClauses(
+                    this.target.priorClauses.map((c) => compileClause(this.source.cards, c))
                 );
             }
-            this.result = 100 * (this.count.posterior / this.count.prior);
+            if (this.cache.compiledPosteriorClause == null) {
+                this.cache.compiledPosteriorClause = intersectCompiledClauses([
+                    this.cache.compiledPriorClause,
+                    unionCompiledClauses(
+                        this.target.posteriorClauses.map((c) => compileClause(this.source.cards, c))
+                    )
+                ]);
+            }
+            const prior = executeCompiledClause(
+                this.cache.patterns,
+                this.cache.compiledPriorClause
+            );
+            const posterior = executeCompiledClause(
+                this.cache.patterns,
+                this.cache.compiledPosteriorClause
+            );
+            this.result = 100 * (posterior / prior);
         },
     }
 });

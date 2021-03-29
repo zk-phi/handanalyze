@@ -12,7 +12,7 @@ function ncr (n, r) {
 
 /* ------ */
 
-function makeTree (cards, numDeck, numHand) {
+function computePatterns (cards, numDeck, numHand) {
     const arr = [];
 
     let rec = (patterns, deck, hand, ix) => {
@@ -44,7 +44,7 @@ function inRange (range, val) {
     throw "Unknown range type";
 }
 
-function makeClauseTree (cards, ranges) {
+function compileClause (cards, ranges) {
     const arr = [];
 
     let rec = (ix, alive) => {
@@ -63,15 +63,22 @@ function makeClauseTree (cards, ranges) {
     return arr;
 }
 
-function countForClauses (cards, tree, clauses) {
-    let clauseTrees = clauses.map((clause) => makeClauseTree(cards, clause));
+function unionCompiledClauses (clauses) {
+    if (!clauses.length) throw "List is empty";
+    return Array.from({ length: clauses[0].length }).map((_, ix) => (
+        clauses.some((tree) => tree[ix])
+    ));
+}
+
+function intersectCompiledClauses (clauses) {
+    if (!clauses.length) throw "List is empty";
+    return Array.from({ length: clauses[0].length }).map((_, ix) => (
+        clauses.every((tree) => tree[ix])
+    ));
+}
+
+function executeCompiledClause (patterns, clause) {
     let sum = 0;
-
-    tree.forEach((count, ix) => {
-        if (clauseTrees.some((clause) => clause[ix])) {
-            sum += count;
-        }
-    });
-
+    patterns.forEach((count, ix) => { sum += clause[ix] ? count : 0; });
     return sum;
 }
