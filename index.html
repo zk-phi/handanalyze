@@ -27,8 +27,6 @@
       <div v-if="showDetails">
         <p>※わかる人向け、通常はそのままで ok です。</p>
 
-        <h3>カード名</h3>
-
         <ul>
           <li v-for="(e, ix) in source.cards">
             <input type="text"
@@ -42,16 +40,10 @@
           <button @click="addCard()">＋</button>
         </p>
 
-        <p>が入っているデッキで、</p>
-
-        <h3>事前条件</h3>
+        <p>が登場するデッキで、</p>
 
         <div v-for="(e, i) in target.priorClauses">
-          <p v-if="i > 0">または</p>
-          <h4>
-            パターン {{ i + 1 }}
-            <button v-if="i > 0" @click="delPriorClause(i)">x</button>
-          </h4>
+          <p v-if="i > 0">または <button @click="delPriorClause(i)">x</button></p>
           <ul>
             <li v-for="(e, j) in source.cards">
               {{ source.cards[j].label || 'カード' + String.fromCharCode(65 + j) }}
@@ -73,14 +65,8 @@
 
         <p>が保証されているとき、初手が</p>
 
-        <h3>事後条件</h3>
-
         <div v-for="(e, i) in target.posteriorClauses">
-          <p v-if="i > 0">または</p>
-          <h4>
-            パターン {{ i + 1 }}
-            <button v-if="i > 0" @click="delPosteriorClause(i)">x</button>
-          </h4>
+          <p v-if="i > 0">または <button @click="delPosteriorClause(i)">x</button></p>
           <ul>
             <li v-for="(e, j) in source.cards">
               {{ source.cards[j].label || 'カード' + String.fromCharCode(65 + j) }}
@@ -99,7 +85,7 @@
           <button @click="addPosteriorClause()">＋</button>
         </p>
 
-        <p>になる確率を計算。</p>
+        <p>になる確率</p>
       </div>
 
       <hr />
