@@ -22,6 +22,17 @@ const PRESETS = [
             posteriorClauses: [[{ type: 'min', value: 2 }]],
         }
     }, {
+        label: "引いてはいけないカードを引かない確率",
+        source: {
+            handNum: 8,
+            deckNum: 60,
+            cards: [{ label: "引いてはいけないカード", count: 1 }]
+        },
+        target: {
+            priorClauses: [[{ type: 'min', value: 0 }]],
+            posteriorClauses: [[{ type: 'exact', value: 0 }]],
+        }
+    }, {
         label: "２枚コンボが揃う確率",
         source: {
             handNum: 8,
