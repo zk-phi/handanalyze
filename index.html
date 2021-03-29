@@ -35,7 +35,7 @@
         <input type="number" v-model.number="source.handNum" /> 枚
       </div>
 
-      <h3>デッキの中身</h3>
+      <h3>各カードの投入数</h3>
 
       <ul>
         <li v-for="(e, ix) in source.cards">
@@ -55,13 +55,7 @@
 
       <h2>事前条件</h2>
 
-      <p>わかる人向け、通常はそのままで ok です。</p>
-
-      <p>
-        初手が必ず満たす条件を設定できます。特殊なマリガンルールを持つゲームなどで設定すると、より精度の高い計算をできます。
-      </p>
-
-      <p>例：ポケカの場合、たねポケモンがいない場合引き直しなので、たねポケモンは必ず引ける</p>
+      <p>※わかる人向け、通常はそのままで ok です。</p>
 
       <div v-for="(e, i) in target.priorClauses">
         <p v-if="i > 0">または</p>
@@ -88,9 +82,13 @@
         <button @click="addPriorClause()">＋</button>
       </p>
 
+      <p>が保証されているとき、</p>
+
       <hr />
 
       <h2>計算したい初手</h2>
+
+      <p>初手が</p>
 
       <div v-for="(e, i) in target.posteriorClauses">
         <p v-if="i > 0">または</p>
@@ -116,13 +114,15 @@
         <button @click="addPosteriorClause()">＋</button>
       </p>
 
+      <p>になる確率を計算。</p>
+
       <hr />
 
       <h2>結果</h2>
 
-      <button @click="compute()">計算</button>
+      <p>{{ result | formatProb }} %</p>
 
-      <p>初手が条件を満たす確率: {{ result | formatProb }} %</p>
+      <p><button @click="compute()">計算</button></p>
 
       <hr />
 
