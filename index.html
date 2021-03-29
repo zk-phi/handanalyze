@@ -43,7 +43,29 @@
           <button @click="addCard()">＋</button>
         </p>
 
-        <p>が登場するデッキで、</p>
+        <p>が登場するデッキで、初手が</p>
+
+        <div v-for="(e, i) in target.posteriorClauses">
+          <p v-if="i > 0">または <button @click="delPosteriorClause(i)">x</button></p>
+          <ul>
+            <li v-for="(e, j) in source.cards">
+              {{ source.cards[j].label || 'カード' + String.fromCharCode(65 + j) }}
+              <input type="number" min="0" :max="e.count"
+                     v-model.number="target.posteriorClauses[i][j].value">枚
+              <select v-model="target.posteriorClauses[i][j].type">
+                <option value="min">以上</option>
+                <option value="exact">ジャスト</option>
+                <option value="max">以下</option>
+              </select>
+            </li>
+          </ul>
+        </div>
+
+        <p>
+          <button @click="addPosteriorClause()">＋</button>
+        </p>
+
+        <p>になる確率。ただし、</p>
 
         <div v-for="(e, i) in target.priorClauses">
           <p v-if="i > 0">または <button @click="delPriorClause(i)">x</button></p>
@@ -66,29 +88,7 @@
           <button @click="addPriorClause()">＋</button>
         </p>
 
-        <p>が保証されているとき、初手が</p>
-
-        <div v-for="(e, i) in target.posteriorClauses">
-          <p v-if="i > 0">または <button @click="delPosteriorClause(i)">x</button></p>
-          <ul>
-            <li v-for="(e, j) in source.cards">
-              {{ source.cards[j].label || 'カード' + String.fromCharCode(65 + j) }}
-              <input type="number" min="0" :max="e.count"
-                     v-model.number="target.posteriorClauses[i][j].value">枚
-              <select v-model="target.posteriorClauses[i][j].type">
-                <option value="min">以上</option>
-                <option value="exact">ジャスト</option>
-                <option value="max">以下</option>
-              </select>
-            </li>
-          </ul>
-        </div>
-
-        <p>
-          <button @click="addPosteriorClause()">＋</button>
-        </p>
-
-        <p>になる確率</p>
+        <p>は保証されているものとする。</p>
       </div>
 
       <hr />
