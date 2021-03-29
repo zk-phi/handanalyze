@@ -27,8 +27,8 @@ const PRESETS = [
             handNum: 8,
             deckNum: 60,
             cards: [
-                { label: "必要なカード or サーチ (1)", count: 4 },
-                { label: "必要なカード or サーチ (2)", count: 4 },
+                { label: "必要なカード (1)", count: 4 },
+                { label: "必要なカード (2)", count: 4 },
             ]
         },
         target: {
@@ -47,9 +47,9 @@ const PRESETS = [
             handNum: 8,
             deckNum: 60,
             cards: [
-                { label: "必要なカード or サーチ (1)", count: 4 },
-                { label: "必要なカード or サーチ (2)", count: 4 },
-                { label: "必要なカード or サーチ (3)", count: 4 },
+                { label: "必要なカード (1)", count: 4 },
+                { label: "必要なカード (2)", count: 4 },
+                { label: "必要なカード (3)", count: 4 },
             ]
         },
         target: {
