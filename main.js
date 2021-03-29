@@ -14,39 +14,21 @@ const vm = new Vue({
                 { type: 'min', value: 1 }
             ]],
         },
-        cache: {
-            patterns: null,
-            compiledPriorClause: null,
-            compiledPosteriorClause: null,
-        },
         showDetails: false,
         result: "-",
     },
     watch: {
         source: {
-            handler: () => {
-                vm.cache.patterns = null;
-                vm.cache.compiledPriorClause = null;
-                vm.cache.compiledPosteriorClause = null;
-                vm.result = "-";
-            },
+            handler: () => { vm.compute(); },
             deep: true
         },
-        'target.priorClauses': {
-            handler: () => {
-                vm.cache.compiledPriorClause = null;
-                vm.cache.compiledPosteriorClause = null;
-                vm.result = "-";
-            },
+        target: {
+            handler: () => { vm.compute(); },
             deep: true
         },
-        'target.posteriorClauses': {
-            handler: () => {
-                vm.cache.compiledPosteriorClause = null;
-                vm.result = "-";
-            },
-            deep: true
-        },
+    },
+    mounted: function () {
+        this.compute();
     },
     filters: {
         formatProb: function (prob) {
@@ -88,34 +70,22 @@ const vm = new Vue({
             this.target = PRESETS[ix].target;
         },
         compute: function () {
-            if (this.cache.patterns == null) {
-                this.cache.patterns = computePatterns(
-                    this.source.cards,
-                    this.source.deckNum,
-                    this.source.handNum
-                );
-            }
-            if (this.cache.compiledPriorClause == null) {
-                this.cache.compiledPriorClause = unionCompiledClauses(
-                    this.target.priorClauses.map((c) => compileClause(this.source.cards, c))
-                );
-            }
-            if (this.cache.compiledPosteriorClause == null) {
-                this.cache.compiledPosteriorClause = intersectCompiledClauses([
-                    this.cache.compiledPriorClause,
-                    unionCompiledClauses(
-                        this.target.posteriorClauses.map((c) => compileClause(this.source.cards, c))
-                    )
-                ]);
-            }
-            const prior = executeCompiledClause(
-                this.cache.patterns,
-                this.cache.compiledPriorClause
+            const patterns = computePatterns(
+                this.source.cards,
+                this.source.deckNum,
+                this.source.handNum
             );
-            const posterior = executeCompiledClause(
-                this.cache.patterns,
-                this.cache.compiledPosteriorClause
+            const compiledPriorClause = unionCompiledClauses(
+                this.target.priorClauses.map((c) => compileClause(this.source.cards, c))
             );
+            const compiledPosteriorClause = intersectCompiledClauses([
+                compiledPriorClause,
+                unionCompiledClauses(
+                    this.target.posteriorClauses.map((c) => compileClause(this.source.cards, c))
+                )
+            ]);
+            const prior = executeCompiledClause(patterns, compiledPriorClause);
+            const posterior = executeCompiledClause(patterns, compiledPosteriorClause);
             this.result = 100 * (posterior / prior);
         },
     }
