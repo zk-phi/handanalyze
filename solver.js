@@ -7,6 +7,7 @@ function fact (n) {
 }
 
 function ncr (n, r) {
+    if (!(n >= r && r >= 0 && n >= 0)) return 0;
     return fact(n) / fact(n - r) / fact(r);
 }
 
@@ -18,14 +19,12 @@ function computePatterns (cards, numDeck, numHand) {
     let rec = (patterns, deck, hand, ix) => {
         if (ix == cards.length - 1) { /* leaf */
             return Array.from({ length: cards[ix].count + 1 }).forEach((_, num) => {
-                const p = hand >= num ? (
-                    ncr(cards[ix].count, num) * ncr(deck - cards[ix].count, hand - num)
-                ) : 0;
+                const p = ncr(cards[ix].count, num) * ncr(deck - cards[ix].count, hand - num);
                 arr.push(patterns * p);
             });
         } else { /* node */
             return Array.from({ length: cards[ix].count + 1 }).forEach((_, num) => {
-                const p = hand >= num ? ncr(cards[ix].count, num) : 0;
+                const p = ncr(cards[ix].count, num);
                 rec(patterns * p, deck - cards[ix].count, hand - num, ix + 1);
             });
         }
