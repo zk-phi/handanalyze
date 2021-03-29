@@ -18,50 +18,31 @@
       <p>いろいろな初手の確率を計算できます。デッキ構築のお供に。</p>
 
       <p>
-        プリセット：
         <select @change="setPreset($event.target.value)">
           <option v-for="(preset, ix) in PRESETS" :value="ix">{{ preset.label }}</option>
         </select>
-      </p>
-
-      <hr />
-
-      <h2>基本設定</h2>
-
-      <div>
-        デッキ枚数：
-        <input type="number" v-model.number="source.deckNum" /> 枚
-      </div>
-
-      <div>
-        引く枚数：
-        <input type="number" v-model.number="source.handNum" /> 枚
-      </div>
-
-      <h3>各カードの投入数</h3>
-
-      <ul>
-        <li v-for="(e, ix) in source.cards">
-          <input type="text"
-                 v-model="source.cards[ix].label"
-                 :placeholder="'カード' + String.fromCharCode(65 + ix)" />
-          x <input type="number" v-model.number="source.cards[ix].count" /> 枚
-          <button v-if="ix >= 1" @click="delCard(ix)">x</button>
-        </li>
-      </ul>
-
-      <p>
-        <button @click="addCard()">＋</button>
-      </p>
-
-      <h2>詳細設定</h2>
-
-      <p>
-        <button @click="toggleShowDetails">{{ showDetails ? "閉じる" : "開く" }}</button>
+        <button @click="toggleShowDetails">{{ showDetails ? "閉じる" : "詳細設定" }}</button>
       </p>
 
       <div v-if="showDetails">
         <p>※わかる人向け、通常はそのままで ok です。</p>
+
+        <h3>カード名</h3>
+
+        <ul>
+          <li v-for="(e, ix) in source.cards">
+            <input type="text"
+                   v-model="source.cards[ix].label"
+                   :placeholder="'カード' + String.fromCharCode(65 + ix)" />
+            <button v-if="ix >= 1" @click="delCard(ix)">x</button>
+          </li>
+        </ul>
+
+        <p>
+          <button @click="addCard()">＋</button>
+        </p>
+
+        <p>が入っているデッキで、</p>
 
         <h3>事前条件</h3>
 
@@ -120,6 +101,27 @@
 
         <p>になる確率を計算。</p>
       </div>
+
+      <hr />
+
+      <p>
+        デッキ枚数：
+        <input type="number" v-model.number="source.deckNum" /> 枚
+      </p>
+
+      <p>
+        引く枚数：
+        <input type="number" v-model.number="source.handNum" /> 枚
+      </p>
+
+      <h3>各カードの投入数</h3>
+
+      <ul>
+        <li v-for="(e, ix) in source.cards">
+          {{ source.cards[ix].label || 'カード' + String.fromCharCode(65 + ix) }}
+          x <input type="number" v-model.number="source.cards[ix].count" /> 枚
+        </li>
+      </ul>
 
       <hr />
 

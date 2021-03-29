@@ -71,7 +71,7 @@ const PRESETS = [
             deckNum: 60,
             cards: [
                 { label: "デデンネなど", count: 2 },
-                { label: "その他のたねポケ", count: 10 },
+                { label: "その他の種ポケ", count: 10 },
             ]
         },
         target: {
@@ -84,13 +84,13 @@ const PRESETS = [
             ],
         }
     }, {
-        label: "望んだ種ポケでスタートできる確率",
+        label: "目当ての種ポケをバトル場に置いてスタートできる確率",
         source: {
             handNum: 7,
             deckNum: 60,
             cards: [
-                { label: "望んだ種ポケ", count: 4 },
-                { label: "望んでない種ポケ", count: 6 },
+                { label: "目当ての種ポケ", count: 4 },
+                { label: "その他の種ポケ", count: 6 },
             ]
         },
         target: {
@@ -109,14 +109,14 @@ const PRESETS = [
             deckNum: 60,
             cards: [
                 { label: "目当ての種ポケ", count: 4 },
+                { label: "サーチ", count: 8 },
                 { label: "その他の種ポケ", count: 6 },
-                { label: "サーチ", count: 8 }
             ]
         },
         target: {
             priorClauses: [
                 [{ type: 'min', value: 1 }, { type: 'min', value: 0 }, { type: 'min', value: 0 }],
-                [{ type: 'min', value: 0 }, { type: 'min', value: 1 }, { type: 'min', value: 0 }],
+                [{ type: 'min', value: 0 }, { type: 'min', value: 0 }, { type: 'min', value: 1 }],
             ],
             posteriorClauses: [
                 [{ type: 'min', value: 1 }, { type: 'min', value: 0 }, { type: 'min', value: 0 }],
