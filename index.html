@@ -18,17 +18,22 @@
       <p>いろいろな初手の確率を計算できます。デッキ構築のお供に。</p>
 
       <p>
-        モード:
+        プリセット:
         <select @change="setPreset($event.target.value)">
           <option v-for="(preset, ix) in PRESETS" :value="ix">{{ preset.label }}</option>
         </select>
+      </p>
+
+      <p>
         <button @click="toggleShowDetails">{{ showDetails ? "閉じる" : "カスタム設定" }}</button>
       </p>
 
       <div v-if="showDetails">
         <h2>カスタム設定</h2>
 
-        <p>※わかる人向け、通常はそのままで ok です。</p>
+        <p>※わかる人向け、通常はプリセットから選べば ok です。</p>
+
+        <h4>カードの種類</h4>
 
         <ul>
           <li v-for="(e, ix) in source.cards">
@@ -44,6 +49,8 @@
         </p>
 
         <p>が登場するデッキで、初手が</p>
+
+        <h4>事後条件</h4>
 
         <div v-for="(e, i) in target.posteriorClauses">
           <p v-if="i > 0">または <button @click="delPosteriorClause(i)">x</button></p>
@@ -65,7 +72,9 @@
           <button @click="addPosteriorClause()">＋</button>
         </p>
 
-        <p>になる確率。ただし、</p>
+        <p>を満たす確率。ただし、</p>
+
+        <h4>事前条件</h4>
 
         <div v-for="(e, i) in target.priorClauses">
           <p v-if="i > 0">または <button @click="delPriorClause(i)">x</button></p>
@@ -88,7 +97,8 @@
           <button @click="addPriorClause()">＋</button>
         </p>
 
-        <p>は保証されているものとする。</p>
+        <p>が保証されているものとする。</p>
+        <p>例：ポケカの場合、ルール上、初手にたねポケモンは必ずいる</p>
       </div>
 
       <hr />
