@@ -84,7 +84,7 @@ const PRESETS = [
             ],
         }
     }, {
-        label: "目当ての種ポケをバトル場に置いてスタートできる確率",
+        label: "目当ての種ポケでスタートできる確率",
         source: {
             handNum: 7,
             deckNum: 60,

@@ -18,13 +18,16 @@
       <p>いろいろな初手の確率を計算できます。デッキ構築のお供に。</p>
 
       <p>
+        モード:
         <select @change="setPreset($event.target.value)">
           <option v-for="(preset, ix) in PRESETS" :value="ix">{{ preset.label }}</option>
         </select>
-        <button @click="toggleShowDetails">{{ showDetails ? "閉じる" : "詳細設定" }}</button>
+        <button @click="toggleShowDetails">{{ showDetails ? "閉じる" : "カスタム設定" }}</button>
       </p>
 
       <div v-if="showDetails">
+        <h2>カスタム設定</h2>
+
         <p>※わかる人向け、通常はそのままで ok です。</p>
 
         <ul>
