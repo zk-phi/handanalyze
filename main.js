@@ -4,7 +4,7 @@ const vm = new Vue({
         source: {
             handNum: 8,
             deckNum: 60,
-            cards: [{ label: "", count: 4 }],
+            cards: [{ label: "目当てのカード", count: 4 }],
         },
         target: {
             priorClauses: [[
@@ -75,6 +75,10 @@ const vm = new Vue({
         },
         addPosteriorClause: function () {
             vm.target.posteriorClauses.push(vm.source.cards.map(() => ({ type: 'min', value: 1 })));
+        },
+        setPreset: function (ix) {
+            this.source = PRESETS[ix].source;
+            this.target = PRESETS[ix].target;
         },
         compute: function () {
             if (this.cache.patterns == null) {

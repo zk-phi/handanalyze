@@ -21,6 +21,13 @@
         デッキの構成と初手の条件を定義すると、その確率が計算できます。
       </p>
 
+      <p>
+        プリセット：
+        <select @change="setPreset($event.target.value)">
+          <option v-for="(preset, ix) in PRESETS" :value="ix">{{ preset.label }}</option>
+        </select>
+      </p>
+
       <hr />
 
       <h2>基本設定</h2>
@@ -132,6 +139,7 @@
       </p>
 
     </div>
+    <script src="presets.js"></script>
     <script src="solver.js"></script>
     <script src="main.js"></script>
   </body>
