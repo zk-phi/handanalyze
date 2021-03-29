@@ -36,6 +36,8 @@
 
         <h4>カードの種類</h4>
 
+        <p>登場するカードの種類 (表示名)。</p>
+
         <ul>
           <li v-for="(e, ix) in source.cards">
             <input type="text"
@@ -49,12 +51,12 @@
           <button @click="addCard()">＋</button>
         </p>
 
-        <p>が登場するデッキで、初手が</p>
-
         <h4>事後条件</h4>
 
+        <p>計算したい初手の条件。</p>
+
         <div v-for="(e, i) in target.posteriorClauses">
-          <p v-if="i > 0">または <button @click="delPosteriorClause(i)">x</button></p>
+          <p v-if="i > 0"><button @click="delPosteriorClause(i)">x</button> または</p>
           <ul>
             <li v-for="(e, j) in source.cards">
               {{ source.cards[j].label || 'カード' + String.fromCharCode(65 + j) }}
@@ -73,12 +75,19 @@
           <button @click="addPosteriorClause()">＋</button>
         </p>
 
-        <p>を満たす確率。ただし、</p>
-
         <h4>事前条件</h4>
 
+        <p>
+          初手が必ず満たす性質。
+          ルール上ありえない初手を計算から除外することで精度を上げられます。
+        </p>
+
+        <blockquote>
+          例：ポケカの場合、ルール上、初手にたねポケモンは必ず１体以上いる
+        </blockquote>
+
         <div v-for="(e, i) in target.priorClauses">
-          <p v-if="i > 0">または <button @click="delPriorClause(i)">x</button></p>
+          <p v-if="i > 0"><button @click="delPriorClause(i)">x</button> または</p>
           <ul>
             <li v-for="(e, j) in source.cards">
               {{ source.cards[j].label || 'カード' + String.fromCharCode(65 + j) }}
@@ -97,33 +106,26 @@
         <p>
           <button @click="addPriorClause()">＋</button>
         </p>
-
-        <p>が保証されているものとする。</p>
-        <p>例：ポケカの場合、ルール上、初手にたねポケモンは必ずいる</p>
       </div>
 
       <hr />
-
-      <h2>条件</h2>
 
       <p>
         デッキ枚数：
         <input type="number" v-model.number="source.deckNum" /> 枚
       </p>
 
-      <p>
-        引く枚数：
-        <input type="number" v-model.number="source.handNum" /> 枚
-      </p>
-
-      <h3>各カードの投入数</h3>
-
       <ul>
         <li v-for="(e, ix) in source.cards">
-          {{ source.cards[ix].label || 'カード' + String.fromCharCode(65 + ix) }}
-          x <input type="number" v-model.number="source.cards[ix].count" /> 枚
+          {{ source.cards[ix].label || 'カード' + String.fromCharCode(65 + ix) }}：
+          <input type="number" v-model.number="source.cards[ix].count" /> 枚
         </li>
       </ul>
+
+      <p>
+        ドロー枚数：
+        <input type="number" v-model.number="source.handNum" /> 枚
+      </p>
 
       <h2>結果</h2>
 
