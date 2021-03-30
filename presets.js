@@ -82,7 +82,7 @@ const PRESETS = [
             deckNum: 60,
             cards: [
                 { label: "デデンネなど", count: 2 },
-                { label: "その他の種ポケ", count: 10 },
+                { label: "その他の種", count: 10 },
             ]
         },
         target: {
@@ -100,8 +100,8 @@ const PRESETS = [
             handNum: 7,
             deckNum: 60,
             cards: [
-                { label: "目当ての種ポケ", count: 4 },
-                { label: "その他の種ポケ", count: 6 },
+                { label: "目当ての種", count: 4 },
+                { label: "その他の種", count: 6 },
             ]
         },
         target: {
@@ -119,9 +119,9 @@ const PRESETS = [
             handNum: 8,
             deckNum: 60,
             cards: [
-                { label: "目当ての種ポケ", count: 4 },
+                { label: "目当ての種", count: 4 },
                 { label: "サーチ", count: 8 },
-                { label: "その他の種ポケ", count: 6 },
+                { label: "その他の種", count: 6 },
             ]
         },
         target: {
