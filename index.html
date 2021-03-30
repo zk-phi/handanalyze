@@ -20,7 +20,7 @@
       </header>
 
       <p>
-        プリセット:
+        <label>プリセット</label>
         <select @change="setPreset($event.target.value)">
           <option v-for="(preset, ix) in PRESETS" :value="ix">{{ preset.label }}</option>
         </select>
@@ -28,102 +28,92 @@
       </p>
 
       <div v-if="showDetails">
-        <hr />
-
-        <h2>カスタム設定</h2>
-
-        <p>※わかる人向け、通常はプリセットから選べば ok です。</p>
-
-        <h4>カードの種類</h4>
-
-        <p>登場するカードの種類 (表示名)。</p>
-
-        <ul>
-          <li v-for="(e, ix) in source.cards">
-            <input type="text"
-                   v-model="source.cards[ix].label"
-                   :placeholder="'カード' + String.fromCharCode(65 + ix)" />
-            <button v-if="ix >= 1" @click="delCard(ix)">x</button>
-          </li>
-        </ul>
-
-        <p>
-          <button @click="addCard()">＋</button>
-        </p>
-
-        <h4>事後条件</h4>
-
-        <p>計算したい初手の条件。</p>
-
-        <div v-for="(e, i) in target.posteriorClauses">
-          <p v-if="i > 0"><button @click="delPosteriorClause(i)">x</button> または</p>
+        <fieldset>
+          <legend>カードの種類</legend>
+          <p>登場するカードの種類 (表示名)。</p>
           <ul>
-            <li v-for="(e, j) in source.cards">
-              {{ source.cards[j].label || 'カード' + String.fromCharCode(65 + j) }}
-              <input type="number" min="0" :max="e.count"
-                     v-model.number="target.posteriorClauses[i][j].value">枚
-              <select v-model="target.posteriorClauses[i][j].type">
-                <option value="min">以上</option>
-                <option value="exact">ジャスト</option>
-                <option value="max">以下</option>
-              </select>
+            <li v-for="(e, ix) in source.cards">
+              <input type="text"
+                     v-model="source.cards[ix].label"
+                     :placeholder="'カード' + String.fromCharCode(65 + ix)" />
+              <button v-if="ix >= 1" @click="delCard(ix)">x</button>
             </li>
           </ul>
-        </div>
+          <p>
+            <button @click="addCard()">＋</button>
+          </p>
+        </fieldset>
 
-        <p>
-          <button @click="addPosteriorClause()">＋</button>
-        </p>
+        <fieldset>
+          <legend>事後条件</legend>
+          <p>計算したい初手の条件。</p>
+          <div v-for="(e, i) in target.posteriorClauses">
+            <p v-if="i > 0"><button @click="delPosteriorClause(i)">x</button> または</p>
+            <ul>
+              <li v-for="(e, j) in source.cards">
+                {{ source.cards[j].label || 'カード' + String.fromCharCode(65 + j) }}
+                <input type="number" min="0" :max="e.count"
+                       v-model.number="target.posteriorClauses[i][j].value">枚
+                <select v-model="target.posteriorClauses[i][j].type">
+                  <option value="min">以上</option>
+                  <option value="exact">ジャスト</option>
+                  <option value="max">以下</option>
+                </select>
+              </li>
+            </ul>
+          </div>
+          <p>
+            <button @click="addPosteriorClause()">＋</button>
+          </p>
+        </fieldset>
 
-        <h4>事前条件</h4>
-
-        <p>
-          初手が必ず満たす性質。
-          ルール上ありえない初手を計算から除外することで精度を上げられます。
-        </p>
-
-        <blockquote>
-          例：ポケカの場合、ルール上、初手にたねポケモンは必ず１体以上いる
-        </blockquote>
-
-        <div v-for="(e, i) in target.priorClauses">
-          <p v-if="i > 0"><button @click="delPriorClause(i)">x</button> または</p>
-          <ul>
-            <li v-for="(e, j) in source.cards">
-              {{ source.cards[j].label || 'カード' + String.fromCharCode(65 + j) }}
-              <input type="number" min="0" :max="e.count"
-                     v-model.number="target.priorClauses[i][j].value">
-              枚
-              <select v-model="target.priorClauses[i][j].type">
-                <option value="min">以上</option>
-                <option value="exact">ジャスト</option>
-                <option value="max">以下</option>
-              </select>
-            </li>
-          </ul>
-        </div>
-
-        <p>
-          <button @click="addPriorClause()">＋</button>
-        </p>
+        <fieldset>
+          <legend>事前条件</legend>
+          <p>
+            初手が必ず満たす性質。
+            ルール上ありえない初手を計算から除外することで精度を上げられます。
+          </p>
+          <blockquote>
+            例：ポケカの場合、ルール上、初手にたねポケモンは必ず１体以上いる
+          </blockquote>
+          <div v-for="(e, i) in target.priorClauses">
+            <p v-if="i > 0"><button @click="delPriorClause(i)">x</button> または</p>
+            <ul>
+              <li v-for="(e, j) in source.cards">
+                {{ source.cards[j].label || 'カード' + String.fromCharCode(65 + j) }}
+                <input type="number" min="0" :max="e.count"
+                       v-model.number="target.priorClauses[i][j].value">
+                枚
+                <select v-model="target.priorClauses[i][j].type">
+                  <option value="min">以上</option>
+                  <option value="exact">ジャスト</option>
+                  <option value="max">以下</option>
+                </select>
+              </li>
+            </ul>
+          </div>
+          <p>
+            <button @click="addPriorClause()">＋</button>
+          </p>
+        </fieldset>
       </div>
 
       <hr />
 
-      <p>
-        デッキ枚数：
+      <label>
+        <label>デッキ枚数</label>
         <input type="number" v-model.number="source.deckNum" /> 枚
-      </p>
+      </label>
 
       <ul>
         <li v-for="(e, ix) in source.cards">
-          {{ source.cards[ix].label || 'カード' + String.fromCharCode(65 + ix) }}：
+          <label>{{ source.cards[ix].label || 'カード' + String.fromCharCode(65 + ix) }}</label>
           <input type="number" v-model.number="source.cards[ix].count" /> 枚
         </li>
       </ul>
 
       <p>
-        ドロー枚数：
+        <label>ドロー枚数</label>
         <input type="number" v-model.number="source.handNum" /> 枚
       </p>
 
