@@ -1,6 +1,7 @@
 const vm = new Vue({
     el: "#app",
     data: {
+        COLORS: ["#ff6565", "#ffe965", "#91ff65", "#65ffbd", "#65bdff", "#9165ff", "#ff65e9"],
         source: {
             handNum: 8,
             deckNum: 60,
@@ -15,7 +16,8 @@ const vm = new Vue({
             ]],
         },
         showDetails: false,
-        result: "-",
+        result: 0,
+        hands: [],
     },
     watch: {
         source: {
@@ -32,11 +34,7 @@ const vm = new Vue({
     },
     filters: {
         formatProb: function (prob) {
-            const match = (prob + "").match(/^[^1-9]*\.00+[^0]/);
-            if (match) return match[0];
-
-            const parts = (prob + "").split(".");
-            return parts[0] + "." + (parts[1] || "").substring(0, 2);
+            return prob.toFixed(2);
         }
     },
     methods: {
@@ -75,6 +73,11 @@ const vm = new Vue({
                 this.source.deckNum,
                 this.source.handNum
             );
+            const hands = computeHands(
+                this.source.cards,
+                this.source.deckNum,
+                this.source.handNum,
+            );
             const compiledPriorClause = unionCompiledClauses(
                 this.target.priorClauses.map((c) => compileClause(
                   this.source.cards,
@@ -94,7 +97,31 @@ const vm = new Vue({
             ]);
             const prior = executeCompiledClause(patterns, compiledPriorClause);
             const posterior = executeCompiledClause(patterns, compiledPosteriorClause);
+            let sum = 0;
+            this.hands = hands.map((hand, ix) => ({
+                hand,
+                probablity: patterns[ix] / prior,
+                score: compiledPosteriorClause[ix],
+            })).filter((_, ix) => (
+                compiledPriorClause[ix]
+            )).sort((a, b) => (
+                b.probablity - a.probablity
+            )).map((hand) => ({
+                ...hand,
+                fromProb: sum,
+                toProb: (sum += hand.probablity),
+            }));
             this.result = 100 * (posterior / prior);
         },
+        bgChart: function (fromProb, toProb, highlight) {
+            const color = highlight ? "pink" : "gainsboro";
+            const fromPercentile = fromProb * 100;
+            const toPercentile = toProb * 100;
+            return (
+                "linear-gradient(to right, " +
+                `transparent ${fromPercentile}%, ${color} ${fromPercentile}%, ` +
+                `${color} ${toPercentile}%, transparent ${toPercentile}%)`
+            );
+        }
     }
 });

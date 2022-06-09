@@ -9,6 +9,7 @@
     <meta name="description" content="初手が良い感じになる確率を割り出す君２">
     <script src="vue-2.5.16.min.js" type="text/javascript"></script>
     <link rel="stylesheet" href="new.min.css">
+    <link rel="stylesheet" href="style.css">
   </head>
 
 
@@ -33,6 +34,7 @@
           <p>登場するカードの種類 (表示名)。</p>
           <ul>
             <li v-for="(e, ix) in source.cards">
+              <span class="badge" :style="{ backgroundColor: COLORS[ix % 7] }"></span>
               <input type="text"
                      v-model="source.cards[ix].label"
                      :placeholder="'カード' + String.fromCharCode(65 + ix)" />
@@ -51,6 +53,7 @@
             <p v-if="i > 0"><button @click="delPosteriorClause(i)">x</button> または</p>
             <ul>
               <li v-for="(e, j) in source.cards">
+                <span class="badge" :style="{ backgroundColor: COLORS[j % 7] }"></span>
                 {{ source.cards[j].label || 'カード' + String.fromCharCode(65 + j) }}
                 <input type="number" min="0" :max="e.count"
                        v-model.number="target.posteriorClauses[i][j].value">枚
@@ -80,6 +83,7 @@
             <p v-if="i > 0"><button @click="delPriorClause(i)">x</button> または</p>
             <ul>
               <li v-for="(e, j) in source.cards">
+                <span class="badge" :style="{ backgroundColor: COLORS[j % 7] }"></span>
                 {{ source.cards[j].label || 'カード' + String.fromCharCode(65 + j) }}
                 <input type="number" min="0" :max="e.count"
                        v-model.number="target.priorClauses[i][j].value">
@@ -107,6 +111,7 @@
 
       <ul>
         <li v-for="(e, ix) in source.cards">
+          <span class="badge" :style="{ backgroundColor: COLORS[ix % 7] }"></span>
           <label>{{ source.cards[ix].label || 'カード' + String.fromCharCode(65 + ix) }}</label>
           <input type="number" v-model.number="source.cards[ix].count" /> 枚
         </li>
@@ -120,6 +125,32 @@
       <h2>結果</h2>
 
       <p>{{ result | formatProb }} %</p>
+
+      <p>ハンドごとの確率：</p>
+
+      <table>
+        <thead>
+          <tr>
+            <td></td>
+            <td>手札</td>
+            <td>確率</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="hand in hands">
+            <td>{{ hand.score ? "✅" : "❌" }}</td>
+            <td>
+              <span class="badge"
+                  v-for="card in hand.hand"
+                  :style="{ backgroundColor: COLORS[card] }">
+              </span>
+            </td>
+            <td :style="{ background: bgChart(hand.fromProb, hand.toProb, hand.score) }">
+              {{ hand.probablity * 100 | formatProb }} %
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
       <hr />
 

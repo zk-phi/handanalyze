@@ -69,6 +69,30 @@ function computePatterns (cards, numDeck, numHand) {
     return arr;
 }
 
+function computeHands (cards, numDeck, numHand) {
+  const arr = [];
+
+  let rec = (pattern, deck, hand, ix) => {
+    if (ix == cards.length - 1) { /* leaf */
+      return Array.from({ length: Math.min(cards[ix].count, hand) + 1 }).forEach((_, num) => {
+        const pat = pattern.concat(
+          Array.from({ length: num }).map(() => ix),
+          Array.from({ length: hand - num }).map(() => null),
+        );
+        arr.push(pat);
+      });
+    } else { /* node */
+      return Array.from({ length: Math.min(cards[ix].count, hand) + 1 }).forEach((_, num) => {
+        const pat = pattern.concat(Array.from({ length: num }).map(() => ix));
+        rec(pat, deck - cards[ix].count, hand - num, ix + 1);
+      });
+    }
+  };
+  rec([], numDeck, numHand, 0);
+
+  return arr;
+}
+
 /* --------- */
 
 function inRange (range, val) {
