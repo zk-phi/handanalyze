@@ -81,18 +81,18 @@ function inRange (range, val) {
 function compileClause (cards, ranges, numHand) {
     const arr = [];
 
-    let rec = (ix, alive, hand) => {
+    let rec = (alive, hand, ix) => {
         if (ix == cards.length - 1) { /* leaf */
             return Array.from({ length: Math.min(cards[ix].count, hand) + 1 }).forEach((_, num) => {
                 arr.push(alive && inRange(ranges[ix], num));
             });
         } else { /* node */
             return Array.from({ length: Math.min(cards[ix].count, hand) + 1 }).forEach((_, num) => {
-                rec(ix + 1, alive && inRange(ranges[ix], num), hand - num);
+                rec(alive && inRange(ranges[ix], num), hand - num, ix + 1);
             });
         }
     };
-    rec(0, true, numHand);
+    rec(true, numHand, 0);
 
     return arr;
 }
