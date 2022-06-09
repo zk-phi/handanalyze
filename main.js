@@ -76,12 +76,20 @@ const vm = new Vue({
                 this.source.handNum
             );
             const compiledPriorClause = unionCompiledClauses(
-                this.target.priorClauses.map((c) => compileClause(this.source.cards, c))
+                this.target.priorClauses.map((c) => compileClause(
+                  this.source.cards,
+                  c,
+                  this.source.handNum,
+                ))
             );
             const compiledPosteriorClause = intersectCompiledClauses([
                 compiledPriorClause,
                 unionCompiledClauses(
-                    this.target.posteriorClauses.map((c) => compileClause(this.source.cards, c))
+                    this.target.posteriorClauses.map((c) => compileClause(
+                      this.source.cards,
+                      c,
+                      this.source.handNum,
+                    ))
                 )
             ]);
             const prior = executeCompiledClause(patterns, compiledPriorClause);
