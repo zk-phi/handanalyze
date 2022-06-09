@@ -115,6 +115,10 @@
           <label>{{ source.cards[ix].label || 'カード' + String.fromCharCode(65 + ix) }}</label>
           <input type="number" v-model.number="source.cards[ix].count" /> 枚
         </li>
+        <li>
+          <span class="badge"></span>
+          その他 {{ source.deckNum - source.cards.reduce((l, r) => l + r.count, 0) }}枚
+        </li>
       </ul>
 
       <p>
