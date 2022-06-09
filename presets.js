@@ -76,6 +76,26 @@ const PRESETS = [
             ]],
         }
     }, {
+        label: "遊戯/誘発と初動を両方引ける確率",
+        source: {
+            handNum: 5,
+            deckNum: 40,
+            cards: [
+                { label: "誘発", count: 11 },
+                { label: "一枚初動", count: 3 },
+                { label: "二枚初動", count: 12 },
+            ]
+        },
+        target: {
+            priorClauses: [
+                [{ type: 'min', value: 0 }, { type: 'min', value: 0 }, { type: 'min', value: 0 }],
+            ],
+            posteriorClauses: [
+                [{ type: 'min', value: 1 }, { type: 'min', value: 1 }, { type: 'min', value: 0 }],
+                [{ type: 'min', value: 1 }, { type: 'min', value: 0 }, { type: 'min', value: 2 }],
+            ],
+        }
+    }, {
         label: "ポケカ/デデンネスタートしてしまう確率",
         source: {
             handNum: 7,
