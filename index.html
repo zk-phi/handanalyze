@@ -128,7 +128,13 @@
 
       <h2>結果</h2>
 
-      <p>{{ result | formatProb }} %</p>
+      <table>
+        <tr>
+          <td :style="{ background: bgChart(0, result, true) }">
+            {{ result * 100 | formatProb }} %
+          </td>
+        </tr>
+      </table>
 
       <p>ハンドごとの確率：</p>
 

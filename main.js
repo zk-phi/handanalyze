@@ -111,7 +111,7 @@ const vm = new Vue({
                 fromProb: sum,
                 toProb: (sum += hand.probablity),
             }));
-            this.result = 100 * (posterior / prior);
+            this.result = posterior / prior;
         },
         bgChart: function (fromProb, toProb, highlight) {
             const color = highlight ? "pink" : "gainsboro";
