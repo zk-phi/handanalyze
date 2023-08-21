@@ -96,12 +96,12 @@ const PRESETS = [
             ],
         }
     }, {
-        label: "ポケカ/デデンネスタートしてしまう確率",
+        label: "ポケカ/スタートしたくない種でスタートしてしまう確率",
         source: {
             handNum: 7,
             deckNum: 60,
             cards: [
-                { label: "デデンネなど", count: 2 },
+                { label: "スタートしたくない種", count: 2 },
                 { label: "その他の種", count: 10 },
             ]
         },
