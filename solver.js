@@ -1,9 +1,9 @@
-var facts = [1];
+const _facts = [1];
 function fact (n) {
-    if (!facts[n]) {
-        facts[n] = fact(n - 1) * n;
+    if (!_facts[n]) {
+        _facts[n] = fact(n - 1) * n;
     }
-    return facts[n];
+    return _facts[n];
 }
 
 function ncr (n, r) {
