@@ -154,5 +154,73 @@ const PRESETS = [
                 [{ type: 'min', value: 0 }, { type: 'min', value: 1 }, { type: 'min', value: 1 }],
             ],
         }
-    }
+    }, {
+      label: "デュエマ/受け札が１枚は盾に埋まる確率",
+      source: {
+        handNum: 5,
+        deckNum: 40,
+        cards: [
+          { label: "受け札", count: 8 },
+        ]
+      },
+      target: {
+        priorClauses: [[
+          { type: 'min', value: 0 }
+        ]],
+        posteriorClauses: [
+          [{ type: 'min', value: 1 }],
+        ],
+      }
+    }, {
+      label: "デュエマ/受け札が２枚以上盾に埋まる確率",
+      source: {
+        handNum: 5,
+        deckNum: 40,
+        cards: [
+          { label: "受け札", count: 8 },
+        ]
+      },
+      target: {
+        priorClauses: [[
+          { type: 'min', value: 0 }
+        ]],
+        posteriorClauses: [
+          [{ type: 'min', value: 2 }],
+        ],
+      }
+    }, {
+      label: "デュエマ/先２までに２コス初動を引ける確率",
+      source: {
+        handNum: 6,
+        deckNum: 40,
+        cards: [
+          { label: "２コス初動", count: 10 },
+        ]
+      },
+      target: {
+        priorClauses: [[
+          { type: 'min', value: 0 }
+        ]],
+        posteriorClauses: [
+          [{ type: 'min', value: 1 }],
+        ],
+      }
+    }, {
+      label: "デュエマ/先３までに３コス初動を引ける確率",
+      source: {
+        handNum: 7,
+        deckNum: 40,
+        cards: [
+          { label: "３コス初動", count: 8 },
+        ]
+      },
+      target: {
+        priorClauses: [[
+          { type: 'min', value: 0 }
+        ]],
+        posteriorClauses: [
+          [{ type: 'min', value: 1 }],
+        ],
+      }
+    },
 ];
