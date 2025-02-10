@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="初手が良い感じになる確率を割り出す君Ⅱ">
     <script src="vue-2.5.16.min.js" type="text/javascript"></script>
+    <script src="rison.js" type="text/javascript"></script>
     <link rel="stylesheet" href="new.min.css">
     <link rel="stylesheet" href="style.css">
   </head>
@@ -124,6 +125,13 @@
       <p>
         <label>ドロー枚数</label>
         <input type="number" v-model.number="source.handNum" /> 枚
+      </p>
+
+      <p>
+        <button v-if="!permalink" @click="genLink">
+          このシミュレーションへのリンクを生成
+        </button>
+        <a v-if="permalink" :href="permalink">{{ permalink }}</a>
       </p>
 
       <h2>結果</h2>

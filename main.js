@@ -1,13 +1,25 @@
+const urlparam = location.href.split("?")[1];
+
+let initialConfig;
+
+if (urlparam) {
+    try {
+        initialConfig = rison.decode(decodeURI(urlparam));
+    } catch (e) {
+        console.log("failed to parse urlparam");
+    }
+}
+
 const vm = new Vue({
     el: "#app",
     data: {
         COLORS: ["#ff6565", "#ffe965", "#91ff65", "#65ffbd", "#65bdff", "#9165ff", "#ff65e9"],
-        source: {
+        source: initialConfig?.source ?? {
             handNum: 8,
             deckNum: 60,
             cards: [{ label: "目当てのカード", count: 4 }],
         },
-        target: {
+        target: initialConfig?.target ?? {
             priorClauses: [[
                 { type: 'min', value: 0 }
             ]],
@@ -18,6 +30,7 @@ const vm = new Vue({
         showDetails: false,
         result: 0,
         hands: [],
+        permalink: null,
     },
     watch: {
         source: {
@@ -122,6 +135,14 @@ const vm = new Vue({
                 `transparent ${fromPercentile}%, ${color} ${fromPercentile}%, ` +
                 `${color} ${toPercentile}%, transparent ${toPercentile}%)`
             );
-        }
+        },
+        genLink: function () {
+            this.permalink = encodeURI(
+                location.href.split("?")[0] + "?" + rison.encode({
+                    source: this.source,
+                    target: this.target,
+                })
+            );
+        },
     }
 });
