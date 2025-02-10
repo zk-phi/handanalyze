@@ -131,7 +131,9 @@
         <button v-if="!permalink" @click="genLink">
           このシミュレーションへのリンクを生成
         </button>
-        <a v-if="permalink" :href="permalink">{{ permalink }}</a>
+        <a v-if="permalink" target="_blank" :href="permalink">
+          <small>{{ permalink }}</small>
+        </a>
       </p>
 
       <h2>結果</h2>
